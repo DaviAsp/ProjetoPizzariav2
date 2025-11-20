@@ -1,6 +1,6 @@
 
-let baseURL = "https://localhost:3000/api/";
-
+//let baseURL = "https://localhost:3000/api/";
+let baseURL = "https://localhost:7229/api/";
 const HTTPClient = {
 
     get: (action) => {
