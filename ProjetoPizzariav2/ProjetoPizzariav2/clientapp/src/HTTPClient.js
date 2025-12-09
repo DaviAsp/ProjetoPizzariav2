@@ -94,7 +94,7 @@ const HTTPClient = {
 
         var config = {
             method: "PUT",
-            credentials: 'include',
+            credentials: 'omit',
             headers: {
                 "Accept": "application/json",
                 "Content-Type": "application/json; charset=utf-8"
