@@ -41,7 +41,7 @@ const HTTPClient = {
 
         var config = {
             method: "DELETE",
-            credentials: 'include',
+            credentials: 'omit',
             headers: {
                 "Accept": "application/json",
                 "Content-Type": "application/json; charset=utf-8"

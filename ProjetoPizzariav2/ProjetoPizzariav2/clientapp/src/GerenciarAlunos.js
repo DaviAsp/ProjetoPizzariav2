@@ -30,7 +30,7 @@ export default function GerenciarAlunos() {
         })
         .catch((error) => {
             
-            alert("teste ERRO diferente "+error)
+            alert(error)
         })
     }
 
