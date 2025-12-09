@@ -132,7 +132,8 @@
                                                 from Aluno
                                                 where Nome like @Nome";
 
-                _mysql.Comando.Parameters.AddWithValue("@Nome", nome + "%");
+
+                _mysql.Comando.Parameters.AddWithValue("@Nome", "%" + nome + "%");
 
                 _mysql.Abrir();
                 var dr = _mysql.Comando.ExecuteReader();

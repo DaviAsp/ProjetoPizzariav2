@@ -84,7 +84,7 @@ namespace ProjetoPizzariav2.Controllers
 
             if (!alunos.Any())
             {
-                return NotFound("Alunos encontrados.");
+                return NotFound("Alunos nao encontrados.");
             }
             else
             {

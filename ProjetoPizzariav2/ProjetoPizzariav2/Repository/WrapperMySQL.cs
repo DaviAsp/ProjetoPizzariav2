@@ -9,8 +9,8 @@ namespace ProjetoPizzariav2.Repository
 
         public WrapperMySQL()
         {
-            string strCon = Environment.GetEnvironmentVariable("StringConexao");
-
+           // string strCon = Environment.GetEnvironmentVariable("StringConexao");
+              string strCon = "Server=127.0.0.1;Database=mydb2;Uid=root;Pwd=123456;";
             Conexao = new MySqlConnection(strCon);
             Comando = Conexao.CreateCommand();
         }

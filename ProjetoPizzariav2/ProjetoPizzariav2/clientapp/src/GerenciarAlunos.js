@@ -29,6 +29,7 @@ export default function GerenciarAlunos() {
             window.location.href = "./ConsultarAlunos";
         })
         .catch((error) => {
+            
             alert("teste ERRO diferente "+error)
         })
     }

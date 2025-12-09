@@ -1,3 +1,4 @@
+import { redirect } from "react-router-dom";
 
 //let baseURL = "https://localhost:3000/api/";
 let baseURL = "https://localhost:7229/api/";
@@ -7,7 +8,7 @@ const HTTPClient = {
        
         var config = {
             method: "GET",
-            credentials: 'include',
+            credentials: 'omit',
             headers: {
                 "Accept": "application/json",
                 "Content-Type": "application/json; charset=utf-8"
@@ -23,7 +24,7 @@ const HTTPClient = {
 
         var config = {
             method: "GET",
-            credentials: 'include',
+            credentials: 'omit',
             headers: {
                 "Accept": "application/json",
                 "Content-Type": "application/json; charset=utf-8"
@@ -55,13 +56,14 @@ const HTTPClient = {
 
     post: (action, body) => {
 
+        const myHeaders = new Headers();
+        myHeaders.append("Content-Type", "application/json");
+        myHeaders.append("Accept", "*/*");
+
+
         var config = {
             method: "POST",
-            credentials: 'include',
-            headers: {
-                "Accept": "application/json",
-                "Content-Type": "application/json; charset=utf-8"
-            },
+            headers: myHeaders,
             body: body !== null ? JSON.stringify(body) : null
         };
 
