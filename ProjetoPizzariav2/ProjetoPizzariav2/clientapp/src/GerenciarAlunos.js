@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { httpClient } from './HTTPClient';
-import { Input, Headings, Badge, Label } from "reactstrap";
+import { Input, Headings, Badge, Label, Button, Row, Form, Col, FormGroup } from "reactstrap";
 
 export default function GerenciarAlunos() {
 
@@ -39,13 +39,28 @@ export default function GerenciarAlunos() {
     let saida =
     <>
         <h4>Gerenciar Alunos </h4>
-        <Label>Nome</Label><br/>
-        <Input  value={stateAluno.nomeAluno} onChange={(event) => { setStateAluno({ ...stateAluno, nomeAluno: event.target.value}) }}/><br/>
-        <label>Email</label><br/>
-        <Input name="email"  type="email" value={stateAluno.email} onChange={(event) => { setStateAluno({ ...stateAluno, email: event.target.value}) }}/><br/>
-        <label>Data de nascimento</label><br/>
-        <Input type="date" value={stateAluno.dataNascimento} onChange={(event) => { setStateAluno({ ...stateAluno, dataNascimento: event.target.value}) }}/><br/><br/>
-        <button onClick={gravarAluno}>Salvar</button>
+
+        <Form>
+            <Row> 
+                 <Col md={6}>
+                   <FormGroup>
+                    <Label>Nome</Label>
+                    <Input  value={stateAluno.nomeAluno} onChange={(event) => { setStateAluno({ ...stateAluno, nomeAluno: event.target.value}) }}/>
+                   </FormGroup>  
+                 </Col>
+                 <Col md={6}>
+                 <FormGroup>
+                    <Label>Email</Label>
+                    <Input name="email"  type="email" value={stateAluno.email} onChange={(event) => { setStateAluno({ ...stateAluno, email: event.target.value}) }}/>
+                 </FormGroup>
+                 </Col>
+            </Row>
+            <FormGroup>
+                    <Label>Data de nascimento</Label>
+                    <Input type="date" value={stateAluno.dataNascimento} onChange={(event) => { setStateAluno({ ...stateAluno, dataNascimento: event.target.value}) }}/>
+            </FormGroup>
+        <Button color="primary" onClick={gravarAluno}>Salvar</Button>
+        </Form>
     </>
 
     return (saida);
