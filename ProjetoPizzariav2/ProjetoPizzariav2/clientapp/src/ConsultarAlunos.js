@@ -1,16 +1,26 @@
 import React, { useState, useEffect } from "react";
 import { httpClient } from './HTTPClient';
+import { Form, FormGroup, Button, Input, Col, Row, Table, 
+    ModalHeader, ModalBody, ModalFooter, Modal } from "reactstrap";
 
 export default function ConsultarAlunos() {
 
 
     const [stateAluno, setStateAluno] = useState({
+        codigo: 0,
         nomeAluno: ""
     });
 
     const [stateAlunos, setStateAlunos] = useState({
         alunos: []
     });
+
+    // Função para abrir/fechar o modal
+const alternarModal = () => setModal(!modal);
+
+    const [modal, setModal] = useState(false);
+
+    //const toggle = () => setModal(!modal)
 
     const obterAlunosPorNome = () => {
 
@@ -45,13 +55,9 @@ export default function ConsultarAlunos() {
 
     }
 
-    const excluirAluno = (alunoAtual) => {
-        debugger
-        if (!window.confirm(`Deseja excluir: "${alunoAtual.aluno}"?`)) {
-            return;
-        }
-
-        let p = httpClient().delete("Aluno/Excluir?id=" + alunoAtual.id);
+    const handleConfirmar = (alunoAtual) => {
+        
+                let p = httpClient().delete("Aluno/Excluir?id=" + alunoAtual.id);
 
         p.then(r => {
             return r;
@@ -73,16 +79,96 @@ export default function ConsultarAlunos() {
         .catch((error) => {
             alert("Deu erro"+error);
         })
+        alternarModal(); // Fecha o modal após a ação
+    };
+
+      // Função chamada ao clicar no botão "Cancelar"
+  const handleCancelar = () => {
+    // Adicione sua lógica de cancelamento aqui
+    alternarModal(); // Fecha o modal
+  };
+
+
+    const excluirAluno = (alunoAtual) => {
+    
+        
+    //  <Modal isOpen={modal} toggle={alternarModal} >
+    //     <ModalHeader toggle={alternarModal}>Confirmação de Exclusão</ModalHeader>
+    //     <ModalBody>
+    //      Deseja realmente excluir?
+    //     </ModalBody>
+    //     <ModalFooter>
+    //       <Button color="primary" onClick={handleConfirmar(alunoAtual)}>
+    //         Confirmar
+    //       </Button>
+    //       <Button color="secondary" onClick={handleCancelar}>
+    //         Cancelar
+    //       </Button>
+    //     </ModalFooter>
+    //   </Modal>
+
+        // if (!window.confirm(`Deseja excluir: "${alunoAtual.aluno}"?`)) {
+        //     return;
+        // }
+
+        // let p = httpClient().delete("Aluno/Excluir?id=" + alunoAtual.id);
+
+        // p.then(r => {
+        //     return r;
+        // })
+        // .then(r => {
+        //     if(r.ok)
+        //     {
+        //         let alunos = stateAlunos.alunos;
+        //         let posicao = alunos.findIndex((f) => f.id == alunoAtual.id);
+        //         alunos.splice(posicao, 1);
+
+        //         setStateAlunos({
+        //             alunos
+        //         });
+        //     }
+        //     else
+        //         alert("não é possível excluir um aluno vinculado a uma disciplina!");
+        // })
+        // .catch((error) => {
+        //     alert("Deu erro"+error);
+        // })
     }
 
     let saida =
         <>
-            <input type="text" value={stateAluno.nomeAluno} onChange={(event) => { setStateAluno({ nomeAluno: event.target.value }) }}></input>
-            <button onClick={obterAlunosPorNome}>Consultar</button>
-
-
+        <h4>Consultar Alunos </h4>
+          <Form>
+            <Row>
+                <Col md={6}>
+                    <FormGroup>
+                       <Input type="search" value={stateAluno.nomeAluno} onChange={(event) => { setStateAluno({ nomeAluno: event.target.value }) }}></Input>
+                    </FormGroup>
+                    <Button color="primary" onClick={obterAlunosPorNome}>Consultar</Button>
+                </Col>
+            </Row>
+          </Form>  
             <h4>Alunos Encontrados</h4>
-            <table >
+            <Table hover bordered>
+                <thead>
+                        <tr>
+                            <th>
+                                #
+                            </th>
+                            <th>
+                                Nome
+                            </th>
+                            <th>
+                                Email
+                            </th>
+                            <th>
+                                Data de Nascimento
+                            </th>
+                            <th>
+                                Excluir?
+                            </th>
+                        </tr>
+                </thead>
                 <tbody>
                     {stateAlunos.alunos.map((alunoAtual) => (<tr key={alunoAtual.id}
                         style={{ background: (alunoAtual.id == stateAluno.id ? "red" : ""), paddingBottom: 10 }}
@@ -92,12 +178,27 @@ export default function ConsultarAlunos() {
                         <td>{alunoAtual.email}</td>
                         <td>{alunoAtual.dataNascimento}</td>
                         <td>
-                            <button type="button"
-                                onClick={() => excluirAluno(alunoAtual)}>X</button>                            
+                            <Button type="button" color="danger"
+                                onClick={alternarModal}>X</Button>                            
                         </td>
                     </tr>))}
                 </tbody>
-            </table>
+            </Table>
+
+                 <Modal isOpen={modal} toggle={alternarModal} >
+                    <ModalHeader toggle={alternarModal}>Confirmação de Exclusão</ModalHeader>
+                    <ModalBody>
+                    Deseja realmente excluir?
+                    </ModalBody>
+                    <ModalFooter>
+                    <Button color="primary" onClick={handleConfirmar}>
+                        Confirmar
+                    </Button>
+                    <Button color="secondary" onClick={handleCancelar}>
+                        Cancelar
+                    </Button>
+                    </ModalFooter>
+                </Modal>
 
         </>
 
