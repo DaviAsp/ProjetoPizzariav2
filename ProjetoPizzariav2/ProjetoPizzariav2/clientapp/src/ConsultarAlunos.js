@@ -2,9 +2,24 @@ import React, { useState, useEffect } from "react";
 import { httpClient } from './HTTPClient';
 import { Form, FormGroup, Button, Input, Col, Row, Table, 
     ModalHeader, ModalBody, ModalFooter, Modal } from "reactstrap";
+import {useAlunos} from "./useAlunos";
 
 export default function ConsultarAlunos() {
 
+    const {
+        openModalDelete,
+        excluirAluno
+    } = useAlunos();
+
+
+    const [modal, setModal] = useState();
+
+    const [modal2, setModal2] = useState(false);
+
+    const toggle = () => setModal(!modal);
+
+
+    const toggle2 = () => setModal2(!modal2);
 
     const [stateAluno, setStateAluno] = useState({
         codigo: 0,
@@ -16,9 +31,9 @@ export default function ConsultarAlunos() {
     });
 
     // Função para abrir/fechar o modal
-const alternarModal = () => setModal(!modal);
+// const alternarModal = () => setModal(!modal);
 
-    const [modal, setModal] = useState(false);
+    // const [modal, setModal] = useState(false);
 
     //const toggle = () => setModal(!modal)
 
@@ -55,85 +70,69 @@ const alternarModal = () => setModal(!modal);
 
     }
 
-    const handleConfirmar = (alunoAtual) => {
+    // const handleConfirmar = (alunoAtual) => {
         
-                let p = httpClient().delete("Aluno/Excluir?id=" + alunoAtual.id);
+    //             let p = httpClient().delete("Aluno/Excluir?id=" + alunoAtual.id);
 
-        p.then(r => {
-            return r;
-        })
-        .then(r => {
-            if(r.ok)
-            {
-                let alunos = stateAlunos.alunos;
-                let posicao = alunos.findIndex((f) => f.id == alunoAtual.id);
-                alunos.splice(posicao, 1);
+    //     p.then(r => {
+    //         return r;
+    //     })
+    //     .then(r => {
+    //         if(r.ok)
+    //         {
+    //             let alunos = stateAlunos.alunos;
+    //             let posicao = alunos.findIndex((f) => f.id == alunoAtual.id);
+    //             alunos.splice(posicao, 1);
 
-                setStateAlunos({
-                    alunos
-                });
-            }
-            else
-                alert("não é possível excluir um aluno vinculado a uma disciplina!");
-        })
-        .catch((error) => {
-            alert("Deu erro"+error);
-        })
-        alternarModal(); // Fecha o modal após a ação
-    };
+    //             setStateAlunos({
+    //                 alunos
+    //             });
+    //         }
+    //         else
+    //             alert("não é possível excluir um aluno vinculado a uma disciplina!");
+    //     })
+    //     .catch((error) => {
+    //         alert("Deu erro"+error);
+    //     })
+    //     alternarModal(); // Fecha o modal após a ação
+    // };
 
       // Função chamada ao clicar no botão "Cancelar"
-  const handleCancelar = () => {
-    // Adicione sua lógica de cancelamento aqui
-    alternarModal(); // Fecha o modal
-  };
+//   const handleCancelar = () => {
+//     // Adicione sua lógica de cancelamento aqui
+//     alternarModal(); // Fecha o modal
+//   };
 
 
-    const excluirAluno = (alunoAtual) => {
+    // const excluirAluno = (alunoAtual) => {
     
-        
-    //  <Modal isOpen={modal} toggle={alternarModal} >
-    //     <ModalHeader toggle={alternarModal}>Confirmação de Exclusão</ModalHeader>
-    //     <ModalBody>
-    //      Deseja realmente excluir?
-    //     </ModalBody>
-    //     <ModalFooter>
-    //       <Button color="primary" onClick={handleConfirmar(alunoAtual)}>
-    //         Confirmar
-    //       </Button>
-    //       <Button color="secondary" onClick={handleCancelar}>
-    //         Cancelar
-    //       </Button>
-    //     </ModalFooter>
-    //   </Modal>
+    //     if (!window.confirm(`Deseja excluir: "${alunoAtual.aluno}"?`)) {
+    //         return;
+    //     }
 
-        // if (!window.confirm(`Deseja excluir: "${alunoAtual.aluno}"?`)) {
-        //     return;
-        // }
+    //     let p = httpClient().delete("Aluno/Excluir?id=" + alunoAtual.id);
 
-        // let p = httpClient().delete("Aluno/Excluir?id=" + alunoAtual.id);
+    //     p.then(r => {
+    //         return r;
+    //     })
+    //     .then(r => {
+    //         if(r.ok)
+    //         {
+    //             let alunos = stateAlunos.alunos;
+    //             let posicao = alunos.findIndex((f) => f.id == alunoAtual.id);
+    //             alunos.splice(posicao, 1);
 
-        // p.then(r => {
-        //     return r;
-        // })
-        // .then(r => {
-        //     if(r.ok)
-        //     {
-        //         let alunos = stateAlunos.alunos;
-        //         let posicao = alunos.findIndex((f) => f.id == alunoAtual.id);
-        //         alunos.splice(posicao, 1);
-
-        //         setStateAlunos({
-        //             alunos
-        //         });
-        //     }
-        //     else
-        //         alert("não é possível excluir um aluno vinculado a uma disciplina!");
-        // })
-        // .catch((error) => {
-        //     alert("Deu erro"+error);
-        // })
-    }
+    //             setStateAlunos({
+    //                 alunos
+    //             });
+    //         }
+    //         else
+    //             alert("não é possível excluir um aluno vinculado a uma disciplina!");
+    //     })
+    //     .catch((error) => {
+    //         alert("Deu erro"+error);
+    //     })
+    // }
 
     let saida =
         <>
@@ -179,26 +178,26 @@ const alternarModal = () => setModal(!modal);
                         <td>{alunoAtual.dataNascimento}</td>
                         <td>
                             <Button type="button" color="danger"
-                                onClick={alternarModal}>X</Button>                            
+                                onClick={toggle}>X</Button>                            
                         </td>
                     </tr>))}
                 </tbody>
             </Table>
 
-                 <Modal isOpen={modal} toggle={alternarModal} >
-                    <ModalHeader toggle={alternarModal}>Confirmação de Exclusão</ModalHeader>
-                    <ModalBody>
-                    Deseja realmente excluir?
-                    </ModalBody>
-                    <ModalFooter>
-                    <Button color="primary" onClick={handleConfirmar}>
-                        Confirmar
-                    </Button>
-                    <Button color="secondary" onClick={handleCancelar}>
-                        Cancelar
-                    </Button>
-                    </ModalFooter>
-                </Modal>
+    <Modal isOpen={openModalDelete} toggle={toggle}>
+        <ModalHeader toggle={toggle}>Modal title</ModalHeader>
+        <ModalBody>
+                   Deseja Realmente excluir esse aluno? 
+        </ModalBody>
+        <ModalFooter>
+          <Button color="primary" onClick={toggle}>
+            Do Something
+          </Button>{' '}
+          <Button color="secondary" onClick={toggle}>
+            Cancel
+          </Button>
+        </ModalFooter>
+      </Modal>
 
         </>
 
