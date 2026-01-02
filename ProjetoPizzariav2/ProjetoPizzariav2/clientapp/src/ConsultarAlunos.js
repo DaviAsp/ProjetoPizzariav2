@@ -8,7 +8,11 @@ export default function ConsultarAlunos() {
 
     const {
         openModalDelete,
-        excluirAluno
+        excluirAluno,
+        stateAlunos,
+        handleCloseModalDelete,
+        stateAluno,
+        handleOpenModalDelete
     } = useAlunos();
 
 
@@ -21,14 +25,9 @@ export default function ConsultarAlunos() {
 
     const toggle2 = () => setModal2(!modal2);
 
-    const [stateAluno, setStateAluno] = useState({
-        codigo: 0,
-        nomeAluno: ""
-    });
+   const [estadoAluno, setStateAluno] = useState(stateAluno);
 
-    const [stateAlunos, setStateAlunos] = useState({
-        alunos: []
-    });
+    const [estadoAlunos, setStateAlunos] = useState(stateAlunos);
 
     // Função para abrir/fechar o modal
 // const alternarModal = () => setModal(!modal);
@@ -39,7 +38,7 @@ export default function ConsultarAlunos() {
 
     const obterAlunosPorNome = () => {
 
-        httpClient().get("Aluno/ObterPorNome?nome="+stateAluno.nomeAluno)
+        httpClient().get("Aluno/ObterPorNome?nome="+estadoAluno.nomeAluno)
             .then(r => {
                 return r.json();
             })
@@ -141,7 +140,7 @@ export default function ConsultarAlunos() {
             <Row>
                 <Col md={6}>
                     <FormGroup>
-                       <Input type="search" value={stateAluno.nomeAluno} onChange={(event) => { setStateAluno({ nomeAluno: event.target.value }) }}></Input>
+                       <Input type="search" value={estadoAluno.nomeAluno} onChange={(event) => { setStateAluno({ nomeAluno: event.target.value }) }}></Input>
                     </FormGroup>
                     <Button color="primary" onClick={obterAlunosPorNome}>Consultar</Button>
                 </Col>
@@ -169,7 +168,7 @@ export default function ConsultarAlunos() {
                         </tr>
                 </thead>
                 <tbody>
-                    {stateAlunos.alunos.map((alunoAtual) => (<tr key={alunoAtual.id}
+                    {estadoAlunos.alunos.map((alunoAtual) => (<tr key={alunoAtual.id}
                         style={{ background: (alunoAtual.id == stateAluno.id ? "red" : ""), paddingBottom: 10 }}
                     >
                         <td>{alunoAtual.id}</td>
@@ -178,22 +177,22 @@ export default function ConsultarAlunos() {
                         <td>{alunoAtual.dataNascimento}</td>
                         <td>
                             <Button type="button" color="danger"
-                                onClick={toggle}>X</Button>                            
+                                onClick={() => handleOpenModalDelete(alunoAtual.id)}>X</Button>                            
                         </td>
                     </tr>))}
                 </tbody>
             </Table>
 
-    <Modal isOpen={openModalDelete} toggle={toggle}>
-        <ModalHeader toggle={toggle}>Modal title</ModalHeader>
+    <Modal isOpen={openModalDelete}>
+        <ModalHeader>Modal title</ModalHeader>
         <ModalBody>
                    Deseja Realmente excluir esse aluno? 
         </ModalBody>
         <ModalFooter>
-          <Button color="primary" onClick={toggle}>
+          <Button color="primary" onClick={excluirAluno}>
             Do Something
-          </Button>{' '}
-          <Button color="secondary" onClick={toggle}>
+          </Button>
+          <Button color="secondary" onClick={handleCloseModalDelete}>
             Cancel
           </Button>
         </ModalFooter>
