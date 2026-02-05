@@ -8,7 +8,12 @@ import {
   NavbarBrand,
   Nav,
   NavItem,
-  NavLink
+  NavLink,
+  Dropdown,
+  DropdownToggle,
+  DropdownMenu,
+  DropdownItem,
+  UncontrolledDropdown
 } from 'reactstrap';
 
 // export default function Menu() {
@@ -27,35 +32,64 @@ import {
 
 const Menu = (props) => {
 
+ const [dropdownOpen, setDropdownOpen] = useState(false);
+
+
+   const toggle2 = () => setDropdownOpen(!dropdownOpen);
+
 const [isOpen, setIsOpen] = useState(false);
 
 const toggle = () => setIsOpen(!isOpen);
 
-  return (
+    return (
         <div>
       <Navbar color="primary" dark expand="md">
         <NavbarBrand href="/">Inicio</NavbarBrand>
         <NavbarToggler onClick={toggle} />
         <Collapse isOpen={isOpen} navbar>
           <Nav className="mr-auto" navbar>
-            <NavItem>
-              <NavLink href="/gerenciarAlunos">Alunos</NavLink>
-            </NavItem>
-            <NavItem>
-              <NavLink href="/consultarAlunos">
-                Consultar
-              </NavLink>
-            </NavItem>
-             <NavItem>
-              <NavLink href="/Matricular">
-                Matricular
-              </NavLink>
-            </NavItem>
+            <UncontrolledDropdown nav inNavbar>
+              <DropdownToggle nav caret>
+                Gerenciar Alunos
+              </DropdownToggle>
+              <DropdownMenu right>
+                <DropdownItem href="/gerenciarAlunos">Cadastrar</DropdownItem>
+                <DropdownItem href="/consultarAlunos">Consultar</DropdownItem>
+                <DropdownItem href="/Matricular">Matricular</DropdownItem>
+              </DropdownMenu>
+            </UncontrolledDropdown>
           </Nav>
         </Collapse>
       </Navbar>
     </div> 
   )
+
+
+  //   return (
+  //       <div>
+  //     <Navbar color="primary" dark expand="md">
+  //       <NavbarBrand href="/">Inicio</NavbarBrand>
+  //       <NavbarToggler onClick={toggle} />
+  //       <Collapse isOpen={isOpen} navbar>
+  //         <Nav className="mr-auto" navbar>
+  //           <NavItem>
+  //             <NavLink href="/gerenciarAlunos">Alunos</NavLink>
+  //           </NavItem>
+  //           <NavItem>
+  //             <NavLink href="/consultarAlunos">
+  //               Consultar
+  //             </NavLink>
+  //           </NavItem>
+  //            <NavItem>
+  //             <NavLink href="/Matricular">
+  //               Matricular
+  //             </NavLink>
+  //           </NavItem>
+  //         </Nav>
+  //       </Collapse>
+  //     </Navbar>
+  //   </div> 
+  // )
 
 }
 
