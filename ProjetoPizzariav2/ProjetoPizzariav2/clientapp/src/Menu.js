@@ -58,6 +58,16 @@ const toggle = () => setIsOpen(!isOpen);
                 <DropdownItem href="/Matricular">Matricular</DropdownItem>
               </DropdownMenu>
             </UncontrolledDropdown>
+                        <UncontrolledDropdown nav inNavbar>
+              <DropdownToggle nav caret>
+                Cadastros
+              </DropdownToggle>
+              <DropdownMenu right>
+                <DropdownItem href="/gerenciarAlunos">Cadastrar</DropdownItem>
+                <DropdownItem href="/consultarAlunos">Consultar</DropdownItem>
+                <DropdownItem href="/Matricular">Matricular</DropdownItem>
+              </DropdownMenu>
+            </UncontrolledDropdown>
           </Nav>
         </Collapse>
       </Navbar>
